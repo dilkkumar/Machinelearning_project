@@ -1,0 +1,12 @@
+import tensorflow as tf
+
+# Load MobileNetV2 with pretrained weights
+model = tf.keras.applications.MobileNetV2(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+# Add custom classification layers
+x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
+x = tf.keras.layers.Dense(2, activation='softmax')(x)
+final_model = tf.keras.models.Model(inputs=model.input, outputs=x)
+
+# Save the model
+final_model.save("models/pretrained_model.h5")
+print("Model saved as pretrained_model.h5")
